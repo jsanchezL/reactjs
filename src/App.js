@@ -18,7 +18,12 @@ import MiComponente from './components/MiComponente';
 class RegresaTexto extends Component {
   state = {
     show: true
-  };
+  }
+
+  // Evitar el .bind en los eventos de botones
+  toggleShow = () => {
+    this.setState({ show: !this.state.show })
+  }
 
   render () {
     if (this.state.show) {
@@ -28,11 +33,16 @@ class RegresaTexto extends Component {
             Soy un componente de texto que esta desde el App con el texto:
             {this.props.texto}
           </h2>
-          <button onClick={() => this.setState({show:false})}>Actualizar</button>
+          <button onClick={this.toggleShow}>Actualizar</button>
         </div>
       );
     } else {
-      return <h1>No elementos</h1>;
+      return (
+        <div>
+          <h1>No elementos</h1>
+          <button onClick={this.toggleShow}>Actualizar</button>
+        </div>
+      )
     }
   }
 }
@@ -54,7 +64,7 @@ function App () {
         <MiComponente />
       </section>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
