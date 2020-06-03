@@ -6,10 +6,10 @@ import './assets/css/App.css';
 
 import MiComponente from './components/MiComponente';
 
-function regresaTexto (texto) {
+function RegresaTexto (props) {
   var r = (
     <div>
-      <h2>Soy un componente de texto que esta desde el App con el texto: {texto}</h2>
+      <h2>Soy un componente de texto que esta desde el App con el texto: {props.texto}</h2>
     </div>
   )
   return r;
@@ -23,8 +23,9 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
-        </p>        
-        {regresaTexto(texto)}        
+        </p>         
+        {RegresaTexto(texto)} 
+        <RegresaTexto texto="Algo mas"/>      
       </header>
       <section className="componente">
         <MiComponente />
