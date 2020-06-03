@@ -2,10 +2,14 @@ import React from 'react';
 import logo from './assets/images/logo.svg';
 import './assets/css/App.css';
 
+// Importando componentes
+
+import MiComponente from './components/MiComponente';
+
 function regresaTexto (texto) {
   var r = (
     <div>
-      <h2>Soy un componente de texto y el texto es: {texto}</h2>
+      <h2>Soy un componente de texto que esta desde el App con el texto: {texto}</h2>
     </div>
   )
   return r;
@@ -19,18 +23,15 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        {regresaTexto(texto)}
+        </p>        
+        {regresaTexto(texto)}        
       </header>
-    </div>
+      <section className="componente">
+        <MiComponente />
+        <MiComponente />
+        <MiComponente />
+      </section>
+    </div>    
   );
 }
 
