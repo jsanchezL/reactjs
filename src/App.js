@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import logo from './assets/images/logo.svg';
 import './assets/css/App.css';
 
@@ -6,33 +6,54 @@ import './assets/css/App.css';
 
 import MiComponente from './components/MiComponente';
 
-function RegresaTexto (props) {
+/*function RegresaTexto (props) {
   var r = (
     <div>
       <h2>Soy un componente de texto que esta desde el App con el texto: {props.texto}</h2>
     </div>
   )
   return r;
+}*/
+
+class RegresaTexto extends Component {
+  state = {
+    show: true
+  };
+
+  render () {
+    if (this.state.show) {
+      return (
+        <div>
+          <h2>
+            Soy un componente de texto que esta desde el App con el texto:
+            {this.props.texto}
+          </h2>
+          <button onClick={() => this.setState({show:false})}>Actualizar</button>
+        </div>
+      );
+    } else {
+      return <h1>No elementos</h1>;
+    }
+  }
 }
 
-function App() {
-  var texto = "Pasando el texto a un componente"
+function App () {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
-        </p>         
-        {RegresaTexto(texto)} 
-        <RegresaTexto texto="Algo mas"/>      
+        </p>
+        <RegresaTexto texto="Algo mas" />
+        <RegresaTexto texto="PQ" />
       </header>
       <section className="componente">
         <MiComponente />
         <MiComponente />
         <MiComponente />
       </section>
-    </div>    
+    </div>
   );
 }
 
