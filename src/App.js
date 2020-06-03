@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import './assets/css/App.css';
 import tareas from './samples/tareas.json';
+import Tasks from './components/Tasks';
 
 class App extends Component{
   state = {
@@ -9,9 +10,9 @@ class App extends Component{
 
   render() {
     return (
-    <div>
-      { this.state.tareas.map(e => <p key={e.id}>{e.name} - {e.description} - {e.state} </p>)}
-    </div>
+      <div>
+        <Tasks tareas = {this.state.tareas} />
+      </div>
     )
   }
 }
