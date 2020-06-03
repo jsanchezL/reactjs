@@ -2,7 +2,17 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+function regresaTexto (texto) {
+  var r = (
+    <div>
+      <h2>Soy un componente de texto y el texto es: {texto}</h2>
+    </div>
+  )
+  return r;
+}
+
 function App() {
+  var texto = "Pasando el texto a un componente"
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +28,7 @@ function App() {
         >
           Learn React
         </a>
+        {regresaTexto(texto)}
       </header>
     </div>
   );
