@@ -11,7 +11,7 @@ class App extends Component{
 
   addTask = (name, description) => {    
     const newTask = {
-      id: (this.state.tasks.length + 1) ,
+      id: (this.state.tasks.length + 1),
       name : name,
       description : description
     }
@@ -22,13 +22,14 @@ class App extends Component{
   }
 
   deleteTask = id => {
-    const newTasks = this.state.tasks.filter(task => task.id !== id)
+    const newTasks = this.state.tasks.filter(task => task.id !== id) //Filtando por id
     this.setState({
       tasks: newTasks
     })
   }
 
   checkDone = id => {
+    // Filtrando por estado
     const newTasks = this.state.tasks.map(task => {
       if (task.id === id && task.state !== "Done") {
         task.state = "Done"
