@@ -17,7 +17,7 @@ class Task extends Component{
         return (
             <div style={this.setCompleteTask(task)}>           
                 {task.name} - {task.description} - {task.state} 
-                <input type="checkbox" onChange={this.props.checkDone.bind(this, task.id)} />
+                <input type="checkbox" onChange={this.props.checkDone.bind(this, task.id)} checked={(task.state === "Done") ? true: false} />
                 <button onClick={this.props.deleteTask.bind(this, task.id)}>X</button> {/* Pasando parametros a la función */}
             </div>        
         )    
