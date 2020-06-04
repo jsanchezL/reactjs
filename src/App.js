@@ -1,17 +1,17 @@
 import React, {Component} from 'react'
 import './assets/css/App.css';
-import tareas from './samples/tareas.json';
+import tasks from './samples/tareas.json';
 import Tasks from './components/Tasks';
 
 class App extends Component{
   state = {
-    tareas: tareas
+    tasks: tasks
   }
 
   render() {
     return (
       <div>
-        <Tasks tareas = {this.state.tareas} />
+        <Tasks tasks = {this.state.tasks} />
       </div>
     )
   }

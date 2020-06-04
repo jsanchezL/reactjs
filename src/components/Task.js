@@ -1,27 +1,31 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 /**
  * Para renderear un componente para una sola tarea
  */
 class Task extends Component{
 
-    setCompleteTask(tarea) {
+    setCompleteTask(task) {
         return {
-            color: (tarea.state === "Done") ? 'gray' : 'black',
-            textDecoration: (tarea.state === "Done") ? 'line-through' : 'none'
+            color: (task.state === "Done") ? 'gray' : 'black',
+            textDecoration: (task.state === "Done") ? 'line-through' : 'none'
         }
     }
     
     render() {
-        const {tarea} = this.props;
+        const {task} = this.props;
         return (
-            <div style={this.setCompleteTask(tarea)}>           
-                {tarea.name} - {tarea.description} - {tarea.state} 
+            <div style={this.setCompleteTask(task)}>           
+                {task.name} - {task.description} - {task.state} 
                 <input type="checkbox"/>
                 <button>X</button>
             </div>        
         )    
     }
+}
+
+Task.propTypes = {
+    task : PropTypes.object.isRequired
 }
 
 export default Task
