@@ -9,10 +9,22 @@ class App extends Component{
     tasks: tasks
   }
 
+  addTask = (name, description) => {    
+    const newTask = {
+      id: (this.state.tasks.length + 1) ,
+      name : name,
+      description : description
+    };
+    
+    this.setState({
+      tasks: [...this.state.tasks,newTask] //Agregando el nuevo elemento a las tareas ya existentes
+    });
+  }
+
   render() {
     return (
       <div>
-        <TaskForm />
+        <TaskForm addTask = {this.addTask} /> {/* Pasando una función al componente */}
         <Tasks tasks = {this.state.tasks} />
       </div>
     )

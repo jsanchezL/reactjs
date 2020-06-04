@@ -7,20 +7,18 @@ export default class TaskForm extends Component { //Omitir el export al final de
     }
 
     // Omitir metodo bind
-    onSubmit = e => {
-        console.log(this.state);
+    onSubmit = e => {                
         e.preventDefault(); //Prevenir que la pagina se refresque cada que da click al guardar
+        this.props.addTask(this.state.name,this.state.description); //Utilizando la función enviada en los props desde el componente App
     }
 
     onChange = e => {
-        console.log(e.target.name);
-        console.log(e.target.value);
         this.setState({
             [e.target.name] : e.target.value
         })
     }
 
-    render(){
+    render(){        
         return(
             <form onSubmit={this.onSubmit}>
                 {/* Menejamos el estado del componente y agregamos propiedad name para utilizarla en onChange generico */}
