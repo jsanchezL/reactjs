@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 
-export default class TaskForm extends Component {
+export default class TaskForm extends Component { //Omitir el export al final del componente
     state = {
         name : '',
         description : ''
     }
-    
+
     // Omitir metodo bind
     onSubmit = e => {
         console.log(this.state);
@@ -23,6 +23,7 @@ export default class TaskForm extends Component {
     render(){
         return(
             <form onSubmit={this.onSubmit}>
+                {/* Menejamos el estado del componente y agregamos propiedad name para utilizarla en onChange generico */}
                 <input type="text" name="name" placeholder="Titulo de la tarea" onChange={this.onChange} value={this.state.name} />
                 <br/>
                 <br/>
