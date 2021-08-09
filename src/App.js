@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import './scss/App.scss';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import routes from './config/routes';
+import AuthProvider from './providers/AuthProvider';
 
-function App() {
+function RouteWithSubRoutes (route) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Route
+      path={route.path}
+      exact={route.exact}
+      render={props => <route.component routes={route.routes} {...props} />}
+    />
+  );
+}
+
+function App () {
+  return (
+    <AuthProvider>
+      <Router>
+        <Switch>
+          {routes.map ((route, index) => (
+            <RouteWithSubRoutes key={index} {...route} />
+          ))}
+        </Switch>
+      </Router>
+    </AuthProvider>
   );
 }
 
