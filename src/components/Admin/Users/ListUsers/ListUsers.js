@@ -1,5 +1,5 @@
 import {Switch, Table, Tag, Divider, Space, Button, Drawer} from 'antd';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {UserOutlined, UserDeleteOutlined} from '@ant-design/icons';
 import EditUserForm from '../EditUserForm';
 
@@ -21,7 +21,7 @@ export default function ListUsers (props) {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
-      render: email => <a>{email}</a>,
+      render: email => <a href="mailto:">{email}</a>,
       width: 250,
     },
     {
@@ -47,7 +47,7 @@ export default function ListUsers (props) {
             type="primary"
             icon={<UserOutlined />}
             size="small"
-            onClick={() => editRecord (record)}
+            onClick={() => setUserSelected (record)}
           >
             Edit
           </Button>
@@ -65,17 +65,36 @@ export default function ListUsers (props) {
       ),
     },
   ];
-  const {usersActive, usersInActive} = props;
+  const {usersActive, usersInActive, setReloadUsers} = props;
   const [viewUsersActive, setViewUsersActive] = useState (true);
   const [isVisibleDrawer, setIsVisibleDrawer] = useState (false);
   const [titleDrawer, setTitleDrawer] = useState ('');
   const [drawerContent, setDrawerContent] = useState (null);
+  const [userSelected, setUserSelected] = useState ({
+    name: '',
+    lastname: '',
+    email: '',
+    isAdmin: false,
+    status: false,
+    avatar: '',
+  });
 
-  const editRecord = record => {
-    setTitleDrawer ('Edit');
-    setIsVisibleDrawer (true);
-    setDrawerContent (<EditUserForm user={record} />);
-  };
+  useEffect (
+    () => {
+      if (userSelected && userSelected._id) {
+        setTitleDrawer ('Edit');
+        setIsVisibleDrawer (true);
+      }
+      setDrawerContent (
+        <EditUserForm
+          userSelected={userSelected}
+          setReloadUsers={setReloadUsers}
+        />
+      );
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [userSelected]
+  );
 
   const deleteRecord = id => {
     setTitleDrawer ('Sure to delete?');
@@ -104,7 +123,10 @@ export default function ListUsers (props) {
         title={titleDrawer}
         onClose={() => {
           setIsVisibleDrawer (false);
+          setTitleDrawer ('');
+          setUserSelected (null);
         }}
+        destroyOnClose="true"
         height="500"
       >
         {drawerContent}
