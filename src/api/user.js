@@ -16,14 +16,8 @@ export function getUsersApi (token) {
   return makeRequests ('users', 'GET', null, 'users', token);
 }
 
-export function getUsersByStatusApi (token, value) {
-  return makeRequests (
-    `usersByStatus?active=${value}`,
-    'GET',
-    null,
-    'users',
-    token
-  );
+export function getUsersByStatusApi (values, token) {
+  return makeRequests ('usersByStatus', 'POST', values, 'users', token);
 }
 
 export function uploadAvatarApi (id, avatar, token) {
@@ -42,4 +36,8 @@ export function getAvatarApi (avatarName, token) {
 
 export function updateUserApi (id, data, token) {
   return makeRequests (`updateUser/${id}`, 'PUT', data, 'user', token);
+}
+
+export function deleteUserApi (id, token) {
+  return makeRequests (`deleteUser/${id}`, 'DELETE', null, null, token);
 }

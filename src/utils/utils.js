@@ -33,6 +33,12 @@ export function makeRequests (endpoint, method, data, k, auth) {
             r = result[k];
             break;
           case 'user':
+            if (!result.isUpdate) {
+              r = {ok: true, message: result.message};
+            } else {
+              r = {ok: true, message: 'Success'};
+            }
+            break;
           default:
             r = {ok: true, message: 'Success'};
             break;
@@ -42,6 +48,7 @@ export function makeRequests (endpoint, method, data, k, auth) {
       return {ok: false, message: result.message};
     })
     .catch (err => {
+      console.log (err);
       return {ok: false, message: err.message};
     });
 }

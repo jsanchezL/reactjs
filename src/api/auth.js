@@ -41,6 +41,10 @@ export async function refreshAccessTokenApi (refreshToken) {
   }
 }
 
+export function comfirmSignUpApi (confirmationCode) {
+  return makeRequests (`confirm/${confirmationCode}`, 'GET', null, 'user');
+}
+
 export function logout () {
   localStorage.removeItem (ACCESS_TOKEN);
   localStorage.removeItem (REFRESH_TOKEN);

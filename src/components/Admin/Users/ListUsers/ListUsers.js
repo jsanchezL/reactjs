@@ -1,7 +1,19 @@
-import {Switch, Table, Tag, Divider, Space, Button, Drawer} from 'antd';
+import {
+  Switch,
+  Table,
+  Tag,
+  Divider,
+  Space,
+  Button,
+  Drawer,
+  Popconfirm,
+  notification,
+} from 'antd';
 import {useState, useEffect} from 'react';
 import {UserOutlined, UserDeleteOutlined} from '@ant-design/icons';
 import EditUserForm from '../EditUserForm';
+import {getAccessTokenApi} from '../../../../api/auth';
+import {deleteUserApi} from '../../../../api/user';
 
 export default function ListUsers (props) {
   const columns = [
@@ -51,16 +63,25 @@ export default function ListUsers (props) {
           >
             Edit
           </Button>
-          {record.status
+          {record.status === 'Active' || record.status === 'Pending'
             ? ''
-            : <Button
-                danger
-                icon={<UserDeleteOutlined />}
-                size="small"
-                onClick={() => deleteRecord (record._id)}
+            : <Popconfirm
+                title="Sure to delete?"
+                visible={visiblePop}
+                onConfirm={handlePopOk}
+                okButtonProps={{loading: confirmLoading}}
+                okType="danger"
+                onCancel={handleCancel}
               >
-                Delete
-              </Button>}
+                <Button
+                  danger
+                  icon={<UserDeleteOutlined />}
+                  size="small"
+                  onClick={() => showPopconfirm (record._id)}
+                >
+                  Delete
+                </Button>
+              </Popconfirm>}
         </Space>
       ),
     },
@@ -75,9 +96,37 @@ export default function ListUsers (props) {
     lastname: '',
     email: '',
     isAdmin: false,
-    status: false,
+    status: '',
     avatar: '',
   });
+
+  const [visiblePop, setVisiblePop] = useState (false);
+  const [confirmLoading, setConfirmLoading] = useState (false);
+  const [idUserDel, setIdUserDel] = useState ('');
+  const token = getAccessTokenApi ();
+
+  const showPopconfirm = id => {
+    setVisiblePop (true);
+    setIdUserDel (id);
+  };
+
+  const handlePopOk = async () => {
+    setConfirmLoading (true);
+    console.log (idUserDel);
+    const result = await deleteUserApi (idUserDel, token);
+    notification['info'] ({
+      message: result.message,
+    });
+    setVisiblePop (false);
+    setConfirmLoading (false);
+    setIdUserDel ('');
+    setReloadUsers (true);
+  };
+
+  const handleCancel = () => {
+    setVisiblePop (false);
+    setIdUserDel ('');
+  };
 
   useEffect (
     () => {
@@ -96,12 +145,6 @@ export default function ListUsers (props) {
     [userSelected]
   );
 
-  const deleteRecord = id => {
-    setTitleDrawer ('Sure to delete?');
-    setIsVisibleDrawer (true);
-    console.log (id);
-  };
-
   return (
     <div>
 
@@ -109,7 +152,7 @@ export default function ListUsers (props) {
         defaultChecked
         onChange={() => setViewUsersActive (!viewUsersActive)}
         checkedChildren="Active"
-        unCheckedChildren="Inactive"
+        unCheckedChildren="Inactive/Pending"
       />
       <Divider />
       <Table

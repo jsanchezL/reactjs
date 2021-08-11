@@ -12,9 +12,19 @@ export default function Users () {
   useEffect (
     () => {
       async function getUsers (token) {
-        const usersActive = await getUsersByStatusApi (token, true);
+        let usersActive = await getUsersByStatusApi (
+          {
+            values: ['Active'],
+          },
+          token
+        );
         setUsersActive (usersActive);
-        const usersInActive = await getUsersByStatusApi (token, false);
+        let usersInActive = await getUsersByStatusApi (
+          {
+            values: ['Inactive', 'Pending'],
+          },
+          token
+        );
         setUsersInActive (usersInActive);
       }
       getUsers (token);

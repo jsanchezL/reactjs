@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   notification,
+  Radio,
 } from 'antd';
 import {useDropzone} from 'react-dropzone';
 import {useState, useCallback, useEffect} from 'react';
@@ -157,6 +158,12 @@ function EditForm (props) {
     console.log ('Failed:', errorInfo);
   };
 
+  const optionsWithDisabled = [
+    {label: 'Active', value: 'Active'},
+    {label: 'Inactive', value: 'Inactive'},
+    {label: 'Pending', value: 'Pending', disabled: true},
+  ];
+
   return (
     <Form
       form={form}
@@ -217,11 +224,12 @@ function EditForm (props) {
         />
       </Form.Item>
       <Form.Item label="Status">
-        <Switch
-          checkedChildren="Active"
-          unCheckedChildren="Inactive"
-          checked={userData.status}
-          onChange={(v, e) => setUserData ({...userData, status: v})}
+        <Radio.Group
+          options={optionsWithDisabled}
+          value={userData.status}
+          onChange={e => setUserData ({...userData, status: e.target.value})}
+          optionType="button"
+          buttonStyle="solid"
         />
       </Form.Item>
       <Row>

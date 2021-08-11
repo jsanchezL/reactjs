@@ -10,6 +10,7 @@ import AdminUsers from '../pages/Admin/Users';
 //Pages
 import Home from '../pages/Home';
 import Contact from '../pages/Contact';
+import Comfirm from '../pages/Comfirm';
 
 // Others
 
@@ -55,6 +56,11 @@ const routes = [
         path: '/contact',
         component: Contact,
         exact: true,
+      },
+      {
+        path: '/confirm/:confirmationCode',
+        component: Comfirm,
+        exact: false,
       },
       {
         component: Error404, // Esto siempre debe ir al final de las rutas
