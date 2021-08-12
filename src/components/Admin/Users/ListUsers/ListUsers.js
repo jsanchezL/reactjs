@@ -113,8 +113,8 @@ export default function ListUsers (props) {
   const handlePopOk = async () => {
     setConfirmLoading (true);
     console.log (idUserDel);
-    const result = await deleteUserApi (idUserDel, token);
-    notification['info'] ({
+    let result = await deleteUserApi (idUserDel, token);
+    notification[result.ok ? 'success' : 'error'] ({
       message: result.message,
     });
     setVisiblePop (false);

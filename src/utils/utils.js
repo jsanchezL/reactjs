@@ -39,6 +39,9 @@ export function makeRequests (endpoint, method, data, k, auth) {
               r = {ok: true, message: 'Success'};
             }
             break;
+          case 'delete':
+            r = {ok: true, message: result.message};
+            break;
           default:
             r = {ok: true, message: 'Success'};
             break;

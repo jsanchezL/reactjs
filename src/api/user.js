@@ -39,5 +39,5 @@ export function updateUserApi (id, data, token) {
 }
 
 export function deleteUserApi (id, token) {
-  return makeRequests (`deleteUser/${id}`, 'DELETE', null, null, token);
+  return makeRequests (`deleteUser/${id}`, 'DELETE', null, 'delete', token);
 }
