@@ -4,9 +4,13 @@ import LoadRoutes from './LoadRoutes';
 import AdminSignIn from '../pages/Admin/SignIn/SignIn';
 import {Route, Redirect} from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import MenuTop from '../components/MenuTop';
+import MenuSider from '../components/MenuSider';
+import {useState} from 'react';
 
 export default function LayoutAccount (props) {
   const {routes} = props;
+  const [menuCollapsed, setMenuCollapsed] = useState (true);
   const {Header, Content, Footer} = Layout;
   const {user, isLoading} = useAuth ();
 
@@ -23,15 +27,21 @@ export default function LayoutAccount (props) {
   if (user && !isLoading) {
     return (
       <Layout>
-        <h2>Menu Sider Account</h2>
-        <Layout>
-          <Header>
-            Header Account
+        <MenuSider menuCollapsed={menuCollapsed} isAdmin={user.isAdmin} />
+        <Layout
+          className="layout-account"
+          style={{marginLeft: menuCollapsed ? '80px' : '200px'}}
+        >
+          <Header className="layout-account__header">
+            <MenuTop
+              menuCollapsed={menuCollapsed}
+              setMenuCollapsed={setMenuCollapsed}
+            />
           </Header>
-          <Content>
+          <Content className="layout-account__content">
             <LoadRoutes routes={routes} />
           </Content>
-          <Footer>
+          <Footer className="layout-account__footer">
             JLSL
           </Footer>
         </Layout>

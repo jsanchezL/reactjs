@@ -17,7 +17,6 @@ import Contact from '../pages/Contact';
 import Comfirm from '../pages/Comfirm';
 
 // Others
-
 import Error404 from '../pages/Error404';
 
 const routes = [

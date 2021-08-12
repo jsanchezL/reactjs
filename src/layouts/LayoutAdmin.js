@@ -1,8 +1,8 @@
 import {Layout} from 'antd';
 import './LayoutAdmin.scss';
 import LoadRoutes from './LoadRoutes';
-import MenuTop from '../components/Admin/MenuTop';
-import MenuSider from '../components/Admin/MenuSider';
+import MenuTop from '../components/MenuTop';
+import MenuSider from '../components/MenuSider';
 import {useState} from 'react';
 import AdminSignIn from '../pages/Admin/SignIn/SignIn';
 import {Route, Redirect} from 'react-router-dom';
@@ -27,7 +27,7 @@ export default function LayoutAdmin (props) {
   if (user && !isLoading && user.isAdmin) {
     return (
       <Layout>
-        <MenuSider menuCollapsed={menuCollapsed} />
+        <MenuSider menuCollapsed={menuCollapsed} isAdmin={user.isAdmin} />
         <Layout
           className="layout-admin"
           style={{marginLeft: menuCollapsed ? '80px' : '200px'}}
@@ -36,6 +36,7 @@ export default function LayoutAdmin (props) {
             <MenuTop
               menuCollapsed={menuCollapsed}
               setMenuCollapsed={setMenuCollapsed}
+              isAdmin={user.isAdmin}
             />
           </Header>
           <Content className="layout-admin__content">

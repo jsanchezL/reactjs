@@ -5,8 +5,8 @@ import {
   MenuUnfoldOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
-import MenuTopLogo from '../../../assets/img/png/menutoplogo.png';
-import {logout} from '../../../api/auth';
+import MenuTopLogo from '../../assets/img/png/menutoplogo.png';
+import {logout} from '../../api/auth';
 
 export default function MenuTop (props) {
   const {menuCollapsed, setMenuCollapsed} = props;
