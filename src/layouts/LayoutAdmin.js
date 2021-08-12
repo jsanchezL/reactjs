@@ -36,7 +36,6 @@ export default function LayoutAdmin (props) {
             <MenuTop
               menuCollapsed={menuCollapsed}
               setMenuCollapsed={setMenuCollapsed}
-              isAdmin={user.isAdmin}
             />
           </Header>
           <Content className="layout-admin__content">
