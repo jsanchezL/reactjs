@@ -1,6 +1,7 @@
 import './LoginForm.scss';
 import {Form, Input, Button, notification, Checkbox} from 'antd';
 import {signInApi} from '../../../api/user';
+import {isAdmin} from '../../../api/auth';
 import {ACCESS_TOKEN, REFRESH_TOKEN} from '../../../utils/constants';
 
 export default function LoginForm () {
@@ -19,7 +20,12 @@ export default function LoginForm () {
       notification['success'] ({
         message: 'Login successful',
       });
-      window.location.href = '/admin';
+
+      if (isAdmin (accessToken)) {
+        window.location.href = '/admin';
+      } else {
+        window.location.href = '/account';
+      }
     }
   };
 

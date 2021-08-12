@@ -50,6 +50,12 @@ export function logout () {
   localStorage.removeItem (REFRESH_TOKEN);
 }
 
+export function isAdmin (token) {
+  const metaToken = jwtDecode (token);
+  const {isAdmin} = metaToken;
+  return isAdmin;
+}
+
 /**
  * @param {*} token 
  * @returns TRUE si expiró, FALSE en otro caso.

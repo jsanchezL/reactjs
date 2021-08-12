@@ -1,10 +1,12 @@
 import {comfirmSignUpApi} from '../api/auth';
 import {notification} from 'antd';
 import {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useParams, useRouteMatch} from 'react-router-dom';
 
-export default function Comfirm (props) {
+export default function Comfirm () {
   const [comfirm, setComfirm] = useState (false);
+  const match = useRouteMatch ('/confirm/:confirmationCode');
+  let params = useParams ();
 
   useEffect (
     () => {
@@ -15,8 +17,8 @@ export default function Comfirm (props) {
         });
       }
 
-      if (props.match.path === '/confirm/:confirmationCode' && !comfirm) {
-        comfirmSignUp (props.match.params.confirmationCode);
+      if (match && !comfirm) {
+        comfirmSignUp (params.confirmationCode);
         setComfirm (true);
       }
     },

@@ -24,7 +24,7 @@ export default function LayoutAdmin (props) {
     );
   }
 
-  if (user && !isLoading) {
+  if (user && !isLoading && user.isAdmin) {
     return (
       <Layout>
         <MenuSider menuCollapsed={menuCollapsed} />
@@ -47,6 +47,11 @@ export default function LayoutAdmin (props) {
         </Layout>
       </Layout>
     );
+  } else {
+    return (
+      <div>
+        <Redirect to="/account" />
+      </div>
+    );
   }
-  return null;
 }
