@@ -33,7 +33,7 @@ export default function Users () {
       }
       setTimeout (() => {
         setFreshData (true);
-      }, 36000); // Cada minuto recuperamos nuevos datos del servidor
+      }, 36000); // Retrieve records each minute
       setFreshData (false);
     },
     [token, isFreshData]
