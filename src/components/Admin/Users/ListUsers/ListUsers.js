@@ -8,10 +8,13 @@ import {
   Drawer,
   Popconfirm,
   notification,
+  Row,
+  Col,
 } from 'antd';
 import {useState, useEffect} from 'react';
 import {UserOutlined, UserDeleteOutlined} from '@ant-design/icons';
-import EditUserForm from '../EditUserForm';
+import EditUser from '../EditUser';
+import CreateUser from '../CreateUser';
 import {getAccessTokenApi} from '../../../../api/auth';
 import {deleteUserApi} from '../../../../api/user';
 
@@ -133,27 +136,47 @@ export default function ListUsers (props) {
       if (userSelected && userSelected._id) {
         setTitleDrawer ('Edit');
         setIsVisibleDrawer (true);
+        setDrawerContent (
+          <EditUser
+            userSelected={userSelected}
+            setReloadUsers={setReloadUsers}
+          />
+        );
       }
-      setDrawerContent (
-        <EditUserForm
-          userSelected={userSelected}
-          setReloadUsers={setReloadUsers}
-        />
-      );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [userSelected]
   );
 
+  const createUser = () => {
+    setTitleDrawer ('Create');
+    setIsVisibleDrawer (true);
+    setDrawerContent (<CreateUser setReloadUsers={setReloadUsers} />);
+  };
+
   return (
     <div>
-
-      <Switch
-        defaultChecked
-        onChange={() => setViewUsersActive (!viewUsersActive)}
-        checkedChildren="Active"
-        unCheckedChildren="Inactive/Pending"
-      />
+      <Row>
+        <Col span={6}>
+          <Switch
+            defaultChecked
+            onChange={() => setViewUsersActive (!viewUsersActive)}
+            checkedChildren="Active"
+            unCheckedChildren="Inactive/Pending"
+          />
+        </Col>
+        <Col span={12} />
+        <Col span={6} style={{textAlign: 'right'}}>
+          <Button
+            icon={<UserOutlined />}
+            type="primary"
+            size="small"
+            onClick={() => createUser ()}
+          >
+            Create User
+          </Button>
+        </Col>
+      </Row>
       <Divider />
       <Table
         columns={columns}
@@ -167,7 +190,14 @@ export default function ListUsers (props) {
         onClose={() => {
           setIsVisibleDrawer (false);
           setTitleDrawer ('');
-          setUserSelected (null);
+          setUserSelected ({
+            name: '',
+            lastname: '',
+            email: '',
+            isAdmin: false,
+            status: '',
+            avatar: '',
+          });
         }}
         destroyOnClose="true"
         height="500"

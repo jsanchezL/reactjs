@@ -4,7 +4,7 @@ import LoadRoutes from './LoadRoutes';
 import MenuTop from '../components/MenuTop';
 import MenuSider from '../components/MenuSider';
 import {useState} from 'react';
-import AdminSignIn from '../pages/Admin/SignIn/SignIn';
+import SignIn from '../pages/SignIn/SignIn';
 import {Route, Redirect} from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
@@ -18,8 +18,8 @@ export default function LayoutAdmin (props) {
   if (!user && !isLoading) {
     return (
       <div>
-        <Route path="/admin/login" component={AdminSignIn} />
-        <Redirect to="/admin/login" />
+        <Route path="/login" component={SignIn} />
+        <Redirect to="/login" />
       </div>
     );
   }

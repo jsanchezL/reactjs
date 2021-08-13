@@ -1,7 +1,7 @@
 import {Layout} from 'antd';
 import './LayoutAccount.scss';
 import LoadRoutes from './LoadRoutes';
-import AdminSignIn from '../pages/Admin/SignIn/SignIn';
+import SignIn from '../pages/SignIn/SignIn';
 import {Route, Redirect} from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import MenuTop from '../components/MenuTop';
@@ -18,8 +18,8 @@ export default function LayoutAccount (props) {
   if (!user && !isLoading) {
     return (
       <div>
-        <Route path="/admin/login" component={AdminSignIn} />
-        <Redirect to="/admin/login" />
+        <Route path="/login" component={SignIn} />
+        <Redirect to="/login" />
       </div>
     );
   }

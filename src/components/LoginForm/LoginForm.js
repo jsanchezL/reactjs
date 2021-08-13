@@ -1,8 +1,8 @@
 import './LoginForm.scss';
 import {Form, Input, Button, notification, Checkbox} from 'antd';
-import {signInApi} from '../../../api/user';
-import {isAdmin} from '../../../api/auth';
-import {ACCESS_TOKEN, REFRESH_TOKEN} from '../../../utils/constants';
+import {signInApi} from '../../api/user';
+import {isAdmin} from '../../api/auth';
+import {ACCESS_TOKEN, REFRESH_TOKEN} from '../../utils/constants';
 
 export default function LoginForm () {
   const onFinish = async values => {

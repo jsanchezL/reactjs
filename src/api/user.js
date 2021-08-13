@@ -8,6 +8,10 @@ export function signUpApi (data) {
   return makeRequests ('signUp', 'POST', data, 'user');
 }
 
+export function createUserApi (data, token) {
+  return makeRequests ('createUser', 'POST', data, 'user', token);
+}
+
 export function signInApi (data) {
   return makeRequests ('signIn', 'POST', data, 'tokens');
 }

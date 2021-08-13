@@ -1,5 +1,5 @@
 import {Form, Input, Checkbox, Button, notification} from 'antd';
-import {signUpApi} from '../../../api/user';
+import {signUpApi} from '../../api/user';
 
 export default function RegisterForm () {
   const formItemLayout = {
@@ -125,7 +125,7 @@ export default function RegisterForm () {
         {...tailFormItemLayout}
       >
         <Checkbox>
-          I have read the <a href="/admin/login">agreement</a>
+          I have read the <a href="/login">agreement</a>
         </Checkbox>
       </Form.Item>
 

@@ -31,7 +31,7 @@ export default function Comfirm () {
       <h3>
         <strong>Account confirmed!</strong>
       </h3>
-      <Link to={'/admin/login'}>
+      <Link to={'/login'}>
         Please Login
       </Link>
     </div>

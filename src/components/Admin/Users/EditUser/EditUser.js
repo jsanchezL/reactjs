@@ -1,27 +1,17 @@
-import {
-  Avatar,
-  Input,
-  Form,
-  Switch,
-  Button,
-  Layout,
-  Row,
-  Col,
-  notification,
-  Radio,
-} from 'antd';
+import {Avatar, Layout, notification} from 'antd';
 import {useDropzone} from 'react-dropzone';
 import {useState, useCallback, useEffect} from 'react';
 import noAvatar from '../../../../assets/img/png/noavatar.png';
-import './EditUserFrom.scss';
+import './EditUser.scss';
 import {
   getAvatarApi,
   updateUserApi,
   uploadAvatarApi,
 } from '../../../../api/user';
 import {getAccessTokenApi} from '../../../../api/auth';
+import UserForm from '../UserForm';
 
-export default function EditUserForm (props) {
+export default function EditUser (props) {
   const {userSelected, setReloadUsers} = props;
   const {Sider, Content} = Layout;
   const [avatar, setAvatar] = useState (null);
@@ -87,15 +77,15 @@ export default function EditUserForm (props) {
   );
 
   return (
-    <Layout className="editUserForm">
+    <Layout className="userForm">
       <Sider>
         <UploadAvatar avatar={avatar} setAvatar={setAvatar} />
       </Sider>
       <Content>
-        <EditForm
+        <UserForm
           userData={userData}
           setUserData={setUserData}
-          updateUser={updateUser}
+          saveUser={updateUser}
         />
       </Content>
     </Layout>
@@ -147,98 +137,5 @@ function UploadAvatar (props) {
         ? <Avatar size={150} src={noAvatar} />
         : <Avatar size={150} src={avatarUrl ? avatarUrl : noAvatar} />}
     </div>
-  );
-}
-
-function EditForm (props) {
-  const {userData, setUserData, updateUser} = props;
-  const [form] = Form.useForm ();
-
-  const onFinishFailed = errorInfo => {
-    console.log ('Failed:', errorInfo);
-  };
-
-  const optionsWithDisabled = [
-    {label: 'Active', value: 'Active'},
-    {label: 'Inactive', value: 'Inactive'},
-    {label: 'Pending', value: 'Pending', disabled: true},
-  ];
-
-  return (
-    <Form
-      form={form}
-      name="editForm"
-      layout="horizontal"
-      onFinish={updateUser}
-      labelCol={{span: 3}}
-      onFinishFailed={onFinishFailed}
-    >
-      <Form.Item
-        name="name"
-        label="Name"
-        required={true}
-        initialValue={userData.name}
-        rules={[{required: true, message: 'Please input your name!'}]}
-      >
-        <Input
-          onChange={e => setUserData ({...userData, name: e.target.value})}
-        />
-      </Form.Item>
-      <Form.Item
-        name="lastname"
-        label="Lastname"
-        required={true}
-        initialValue={userData.lastname}
-        rules={[{required: true, message: 'Please input your lastname!'}]}
-      >
-        <Input
-          onChange={e => setUserData ({...userData, lastname: e.target.value})}
-        />
-      </Form.Item>
-      <Form.Item
-        name="email"
-        label="Email"
-        required={true}
-        initialValue={userData.email}
-        rules={[
-          {
-            type: 'email',
-            message: 'The input is not valid E-mail!',
-          },
-          {
-            required: true,
-            message: 'Please input your E-mail!',
-          },
-        ]}
-      >
-        <Input
-          onChange={e => setUserData ({...userData, email: e.target.value})}
-        />
-      </Form.Item>
-      <Form.Item label="Role">
-        <Switch
-          checkedChildren="Admin"
-          unCheckedChildren="Regular"
-          checked={userData.isAdmin}
-          onChange={(v, e) => setUserData ({...userData, isAdmin: v})}
-        />
-      </Form.Item>
-      <Form.Item label="Status">
-        <Radio.Group
-          options={optionsWithDisabled}
-          value={userData.status}
-          onChange={e => setUserData ({...userData, status: e.target.value})}
-          optionType="button"
-          buttonStyle="solid"
-        />
-      </Form.Item>
-      <Row>
-        <Col span={24} style={{textAlign: 'right'}}>
-          <Button type="primary" htmlType="submit">
-            Save
-          </Button>
-        </Col>
-      </Row>
-    </Form>
   );
 }
