@@ -14,6 +14,7 @@ import AccountHome from '../pages/Account';
 import Home from '../pages/Home';
 import Contact from '../pages/Contact';
 import Comfirm from '../pages/Comfirm';
+import AutoSignIn from '../pages/AutoSignIn';
 import SignIn from '../pages/SignIn';
 
 // Others
@@ -73,6 +74,11 @@ const routes = [
       {
         path: '/confirm/:confirmationCode',
         component: Comfirm,
+        exact: false,
+      },
+      {
+        path: '/autoSignIn/:confirmationCode',
+        component: AutoSignIn,
         exact: false,
       },
       {

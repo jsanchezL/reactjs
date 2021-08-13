@@ -45,6 +45,24 @@ export function comfirmSignUpApi (confirmationCode) {
   return makeRequests (`confirm/${confirmationCode}`, 'GET', null, 'user');
 }
 
+export async function autoSignInApi (confirmationCode) {
+  const result = await makeRequests (
+    `autoSignIn/${confirmationCode}`,
+    'GET',
+    null,
+    'tokens'
+  );
+  if (!result) {
+    logout ();
+    return null;
+  } else if (Object.keys (result).includes ('ok')) {
+    logout ();
+    return result;
+  } else {
+    return result;
+  }
+}
+
 export function logout () {
   localStorage.removeItem (ACCESS_TOKEN);
   localStorage.removeItem (REFRESH_TOKEN);
