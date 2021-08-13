@@ -28,7 +28,7 @@ exports.decodeToken = function (token) {
   return jwt.decode (token, SECRET_KEY, true);
 };
 
-exports.createconfirmationCode = function (email) {
+exports.createConfirmationCode = function (email) {
   const payload = {
     email: email,
   };

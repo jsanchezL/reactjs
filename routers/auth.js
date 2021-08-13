@@ -4,5 +4,6 @@ const express = require ('express'),
 
 api.post ('/refreshAccessToken', AuthController.refreshAccessToken);
 api.get ('/confirm/:confirmationCode', AuthController.verifyUser);
+api.get ('/autoSignIn/:confirmationCode', AuthController.autoSignIn);
 
 module.exports = api;

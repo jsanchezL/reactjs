@@ -9,6 +9,7 @@ const bcrypt = require ('bcrypt-nodejs'),
   {UPLOAD_DIR, LOG_LEVEL} = require ('../config');
 
 logger.level = LOG_LEVEL;
+
 /**
  * @description Register new users
  * @param {*} req Request, expect one payload with email, password, and confirmation password
@@ -38,7 +39,7 @@ function signUp (req, res) {
           logger.debug (err);
         } else {
           user.password = hash;
-          user.confirmationCode = jwt.createconfirmationCode (email);
+          user.confirmationCode = jwt.createConfirmationCode (email);
           user.save ((err, userStored) => {
             if (err) {
               res
@@ -243,6 +244,7 @@ function createUser (req, res) {
       logger.debug (err);
     } else {
       user.password = hash;
+      user.confirmationCode = jwt.createConfirmationCode (email);
       user.save ((err, userStored) => {
         if (err) {
           res
@@ -259,13 +261,12 @@ function createUser (req, res) {
               message: 'User was registered successfully!',
             });
             // TODO: sendEmail to auth login
-            // mailer.sendEmail ('confirmationSubscription', userStored);
+            mailer.sendEmail ('confirmationSubscriptionByAdmin', userStored);
           }
         }
       });
     }
   });
-  logger.debug ('createUser');
 }
 
 module.exports = {

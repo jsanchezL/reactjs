@@ -75,7 +75,44 @@ function verifyUser (req, res) {
   );
 }
 
+function autoSignIn (req, res) {
+  User.findOne (
+    {confirmationCode: req.params.confirmationCode},
+    (err, userStored) => {
+      if (err) {
+        res.status (500).send ({message: 'Server internal error'});
+        logger.debug (err);
+      } else {
+        if (!userStored) {
+          res.status (404).send ({message: 'User not found'});
+        } else {
+          if (
+            userStored.status === 'Pending' ||
+            userStored.status === 'Inactive'
+          ) {
+            let msg = userStored.status === 'Pending'
+              ? 'Your user is pending, please finish the process for activation, check your email inbox, before reintent'
+              : 'Your user is inactive, please contact to admin, before reintent';
+            res.status (200).send ({
+              code: 200,
+              message: msg,
+            });
+          } else {
+            res.status (200).send ({
+              tokens: {
+                accessToken: jwt.createAccessToken (userStored),
+                refreshToken: jwt.createRefreshToken (userStored),
+              },
+            });
+          }
+        }
+      }
+    }
+  );
+}
+
 module.exports = {
   refreshAccessToken,
   verifyUser,
+  autoSignIn,
 };
