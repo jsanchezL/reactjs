@@ -123,7 +123,7 @@ export default function ListUsers (props) {
     setVisiblePop (false);
     setConfirmLoading (false);
     setIdUserDel ('');
-    setReloadUsers (true);
+    setReloadUsers (token);
   };
 
   const handleCancel = () => {

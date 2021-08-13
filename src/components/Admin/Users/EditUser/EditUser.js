@@ -43,11 +43,11 @@ export default function EditUser (props) {
       if (name) {
         userUpdate.avatar = name;
         await sendUpdateUser (userUpdate, token);
-        setReloadUsers (true);
+        setReloadUsers (token);
       }
     } else {
       await sendUpdateUser (userUpdate, token);
-      setReloadUsers (true);
+      setReloadUsers (token);
     }
   };
 

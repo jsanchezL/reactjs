@@ -6,31 +6,30 @@ import ListUsers from '../../../components/Admin/Users/ListUsers/ListUsers';
 export default function Users () {
   const [usersActive, setUsersActive] = useState ([]);
   const [usersInActive, setUsersInActive] = useState ([]);
-  const [reloadUsers, setReloadUsers] = useState (false);
   const token = getAccessTokenApi ();
+
+  const setReloadUsers = async token => {
+    let usersActive = await getUsersByStatusApi (
+      {
+        values: ['Active'],
+      },
+      token
+    );
+    setUsersActive (usersActive);
+    let usersInActive = await getUsersByStatusApi (
+      {
+        values: ['Inactive', 'Pending'],
+      },
+      token
+    );
+    setUsersInActive (usersInActive);
+  };
 
   useEffect (
     () => {
-      async function getUsers (token) {
-        let usersActive = await getUsersByStatusApi (
-          {
-            values: ['Active'],
-          },
-          token
-        );
-        setUsersActive (usersActive);
-        let usersInActive = await getUsersByStatusApi (
-          {
-            values: ['Inactive', 'Pending'],
-          },
-          token
-        );
-        setUsersInActive (usersInActive);
-      }
-      getUsers (token);
-      setReloadUsers (false);
+      setReloadUsers (token);
     },
-    [token, reloadUsers]
+    [token]
   );
 
   return (

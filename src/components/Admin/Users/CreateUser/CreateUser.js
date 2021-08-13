@@ -23,7 +23,7 @@ export default function CreateUser (props) {
     notification[result.ok ? 'success' : 'error'] ({
       message: result.message,
     });
-    setReloadUsers (true);
+    setReloadUsers (token);
   };
 
   return (
