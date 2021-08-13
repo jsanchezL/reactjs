@@ -7,6 +7,7 @@ export default function Users () {
   const [usersActive, setUsersActive] = useState ([]);
   const [usersInActive, setUsersInActive] = useState ([]);
   const token = getAccessTokenApi ();
+  const [isFreshData, setFreshData] = useState (false);
 
   const setReloadUsers = async token => {
     let usersActive = await getUsersByStatusApi (
@@ -27,9 +28,15 @@ export default function Users () {
 
   useEffect (
     () => {
-      setReloadUsers (token);
+      if (!isFreshData) {
+        setReloadUsers (token);
+      }
+      setTimeout (() => {
+        setFreshData (true);
+      }, 36000); // Cada minuto recuperamos nuevos datos del servidor
+      setFreshData (false);
     },
-    [token]
+    [token, isFreshData]
   );
 
   return (
