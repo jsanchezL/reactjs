@@ -1,6 +1,11 @@
-const jwt = require ('../services/jwt');
-const moment = require ('moment');
-const User = require ('../models/user');
+const jwt = require ('../services/jwt'),
+  moment = require ('moment'),
+  log4js = require ('log4js'),
+  logger = log4js.getLogger (),
+  User = require ('../models/user'),
+  {LOG_LEVEL} = require ('../config');
+
+logger.level = LOG_LEVEL;
 
 function willExpireToken (token) {
   const {exp} = jwt.decodeToken (token);
@@ -22,6 +27,7 @@ function refreshAccessToken (req, res) {
     User.findOne ({_id: id}, (err, userStored) => {
       if (err) {
         res.status (500).send ({message: 'Server internal error'});
+        logger.debug (err);
       } else {
         if (!userStored) {
           res.status (404).send ({message: 'User not found'});
@@ -44,7 +50,7 @@ function verifyUser (req, res) {
     (err, userStored) => {
       if (err) {
         res.status (500).send ({message: 'Server internal error'});
-        console.log (err);
+        logger.debug (err);
       } else {
         if (!userStored) {
           res.status (404).send ({message: 'User not found'});
@@ -54,7 +60,7 @@ function verifyUser (req, res) {
           user.save ((err, userUpdate) => {
             if (err) {
               res.status (500).send ({message: 'Server internal error'});
-              console.log (err);
+              logger.debug (err);
             } else {
               if (!userStored) {
                 res.status (404).send ({message: 'Error when activate user'});

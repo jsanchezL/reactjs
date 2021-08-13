@@ -1,7 +1,10 @@
-const jwt = require ('jwt-simple');
-const moment = require ('moment');
-const {SECRET_KEY} = require ('../config');
-const User = require ('../models/user');
+const jwt = require ('jwt-simple'),
+  moment = require ('moment'),
+  log4js = require ('log4js'),
+  logger = log4js.getLogger (),
+  {SECRET_KEY, LOG_LEVEL} = require ('../config');
+
+logger.level = LOG_LEVEL;
 
 exports.ensureAuth = (req, res, next) => {
   if (!req.headers.authorization) {
@@ -14,7 +17,7 @@ exports.ensureAuth = (req, res, next) => {
       return res.status (404).send ({message: 'The token expired'});
     }
   } catch (ex) {
-    console.log (ex);
+    logger.debug (ex);
     return res.status (404).send ({message: 'Token invalid'});
   }
   req.user = payload;

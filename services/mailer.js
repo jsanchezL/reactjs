@@ -1,5 +1,9 @@
-const nodemailer = require ('nodemailer');
-const {USER_SMTP, PWD_SMTP, DOMAIN} = require ('../config.js');
+const nodemailer = require ('nodemailer'),
+  log4js = require ('log4js'),
+  logger = log4js.getLogger (),
+  {USER_SMTP, PWD_SMTP, DOMAIN, LOG_LEVEL} = require ('../config.js');
+
+logger.level = LOG_LEVEL;
 
 const transport = nodemailer.createTransport ({
   service: 'Gmail',
@@ -32,5 +36,5 @@ module.exports.sendEmail = (idTemplate, data) => {
         .replace ('{DOMAIN}', DOMAIN)
         .replace ('{confirmationCode}', confirmationCode),
     })
-    .catch (err => console.log (err));
+    .catch (err => logger.debug (err));
 };

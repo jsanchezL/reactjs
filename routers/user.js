@@ -1,11 +1,10 @@
-const express = require ('express');
-const UserController = require ('../controllers/user');
-const multipart = require ('connect-multiparty');
-const md_auth = require ('../middleware/authenticated');
-const {UPLOAD_DIR} = require ('../config');
-const md_upload_avatar = multipart ({uploadDir: `${UPLOAD_DIR}/avatar`});
-
-const api = express.Router ();
+const express = require ('express'),
+  UserController = require ('../controllers/user'),
+  multipart = require ('connect-multiparty'),
+  md_auth = require ('../middleware/authenticated'),
+  {UPLOAD_DIR} = require ('../config'),
+  md_upload_avatar = multipart ({uploadDir: `${UPLOAD_DIR}/avatar`}),
+  api = express.Router ();
 
 api.post ('/signUp', UserController.signUp);
 api.post ('/signIn', UserController.signIn);
@@ -27,5 +26,6 @@ api.get (
 );
 api.put ('/updateUser/:id', [md_auth.ensureAuth], UserController.updateUser);
 api.delete ('/deleteUser/:id', [md_auth.ensureAuth], UserController.deleteUser);
+api.post ('/createUser', [md_auth.ensureAuth], UserController.createUser);
 
 module.exports = api;

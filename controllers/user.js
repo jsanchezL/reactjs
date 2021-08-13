@@ -1,10 +1,14 @@
-const bcrypt = require ('bcrypt-nodejs');
-const User = require ('../models/user');
-const jwt = require ('../services/jwt');
-const mailer = require ('../services/mailer');
-const fs = require ('fs');
-const path = require ('path');
-const {UPLOAD_DIR} = require ('../config');
+const bcrypt = require ('bcrypt-nodejs'),
+  User = require ('../models/user'),
+  jwt = require ('../services/jwt'),
+  mailer = require ('../services/mailer'),
+  fs = require ('fs'),
+  path = require ('path'),
+  log4js = require ('log4js'),
+  logger = log4js.getLogger (),
+  {UPLOAD_DIR, LOG_LEVEL} = require ('../config');
+
+logger.level = LOG_LEVEL;
 /**
  * @description Register new users
  * @param {*} req Request, expect one payload with email, password, and confirmation password
@@ -31,7 +35,7 @@ function signUp (req, res) {
       bcrypt.hash (password, null, null, function (err, hash) {
         if (err) {
           res.status (500).send ({message: 'Server internal error'});
-          console.log (err);
+          logger.debug (err);
         } else {
           user.password = hash;
           user.confirmationCode = jwt.createconfirmationCode (email);
@@ -40,7 +44,7 @@ function signUp (req, res) {
               res
                 .status (500)
                 .send ({message: 'Exists other user with same email'});
-              console.log (err);
+              logger.debug (err);
             } else {
               if (!userStored) {
                 res.status (404).send ({message: 'Error when created user'});
@@ -65,6 +69,7 @@ function signIn (req, res) {
   User.findOne ({email}, (err, userStored) => {
     if (err) {
       res.status (500).send ({message: 'Server internal error'});
+      logger.debug (err);
     } else {
       if (!userStored) {
         res.status (404).send ({message: 'User not found'});
@@ -72,6 +77,7 @@ function signIn (req, res) {
         bcrypt.compare (password, userStored.password, (err, isValid) => {
           if (err) {
             res.status (500).send ({message: 'Server internal error'});
+            logger.debug (err);
           } else if (!isValid) {
             res.status (404).send ({message: 'The password not match'});
           } else {
@@ -127,6 +133,7 @@ function uploadAvatar (req, res) {
   User.findById ({_id: id}, (err, userStored) => {
     if (err) {
       res.status (500).send ({message: 'Server internal error'});
+      logger.debug (err);
     } else {
       if (!userStored) {
         res.status (404).send ({message: 'User not found'});
@@ -147,6 +154,7 @@ function uploadAvatar (req, res) {
             User.findByIdAndUpdate ({_id: id}, user, (err, userResult) => {
               if (err) {
                 res.status (500).send ({message: 'Server internal error'});
+                logger.debug (err);
               } else {
                 if (!userResult) {
                   res.status (404).send ({message: 'User not found'});
@@ -171,8 +179,9 @@ function getAvatar (req, res) {
     } else if (err.code === 'ENOENT') {
       res.status (404).send ({message: 'Image not found'});
     } else {
-      console.log ('Some other error: ', err.code);
+      logger.debug ('Some other error: ', err.code);
       res.status (500).send ({message: 'Server internal error'});
+      logger.debug (err);
     }
   });
 }
@@ -186,6 +195,7 @@ function updateUser (req, res) {
   User.findByIdAndUpdate ({_id: id}, userData, (err, userStored) => {
     if (err) {
       res.status (500).send ({message: 'Server internal error'});
+      logger.debug (err);
     } else {
       if (!userStored) {
         res.status (404).send ({message: 'User not found'});
@@ -193,6 +203,7 @@ function updateUser (req, res) {
         User.findById ({_id: userStored._id}, (err, userUpdate) => {
           if (err) {
             res.status (500).send ({message: 'Server internal error'});
+            logger.debug (err);
           } else {
             res.status (200).send ({user: userUpdate, isUpdate: true});
           }
@@ -207,6 +218,7 @@ function deleteUser (req, res) {
   User.findByIdAndDelete (id, (err, user) => {
     if (err) {
       res.status (500).send ({message: 'Server internal error'});
+      logger.debug (err);
     } else {
       if (!user) {
         res.status (404).send ({message: 'User not found'});
@@ -215,6 +227,45 @@ function deleteUser (req, res) {
       }
     }
   });
+}
+
+function createUser (req, res) {
+  const user = new User ();
+  const {name, lastname, email, password, isAdmin, status} = req.body;
+  user.name = name;
+  user.lastname = lastname;
+  user.email = email.toLowerCase ();
+  user.isAdmin = isAdmin;
+  user.status = status;
+  bcrypt.hash (password, null, null, function (err, hash) {
+    if (err) {
+      res.status (500).send ({message: 'Server internal error'});
+      logger.debug (err);
+    } else {
+      user.password = hash;
+      user.save ((err, userStored) => {
+        if (err) {
+          res
+            .status (500)
+            .send ({message: 'Exists other user with same email'});
+          logger.debug (err);
+        } else {
+          if (!userStored) {
+            res.status (404).send ({message: 'Error when created user'});
+          } else {
+            res.status (200).send ({
+              user: userStored,
+              isUpdate: false,
+              message: 'User was registered successfully!',
+            });
+            // TODO: sendEmail to auth login
+            // mailer.sendEmail ('confirmationSubscription', userStored);
+          }
+        }
+      });
+    }
+  });
+  logger.debug ('createUser');
 }
 
 module.exports = {
@@ -226,4 +277,5 @@ module.exports = {
   getAvatar,
   updateUser,
   deleteUser,
+  createUser,
 };
