@@ -1,6 +1,6 @@
 import {notification} from 'antd';
 import {useState, useEffect} from 'react';
-import {Link, useParams, useRouteMatch} from 'react-router-dom';
+import {useParams, useRouteMatch} from 'react-router-dom';
 import {autoSignInApi, isAdmin} from '../api/auth';
 import {ACCESS_TOKEN, REFRESH_TOKEN} from '../utils/constants';
 
