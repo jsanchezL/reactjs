@@ -4,11 +4,12 @@ import LayoutBasic from '../layouts/LayoutBasic';
 import LayoutAccount from '../layouts/LayoutAccount';
 
 // Admin Pages
-import AdminHome from '../pages/Admin';
+import AdminDashboard from '../pages/Admin';
 import AdminUsers from '../pages/Admin/Users';
+import AdminApps from '../pages/Admin/Apps';
 
 // Account Pages
-import AccountHome from '../pages/Account';
+import AccountDashboard from '../pages/Account';
 
 //Pages
 import Home from '../pages/Home';
@@ -28,12 +29,17 @@ const routes = [
     routes: [
       {
         path: '/admin',
-        component: AdminHome,
+        component: AdminDashboard,
         exact: true,
       },
       {
         path: '/admin/users',
         component: AdminUsers,
+        exact: true,
+      },
+      {
+        path: '/admin/apps',
+        component: AdminApps,
         exact: true,
       },
       {
@@ -48,7 +54,7 @@ const routes = [
     routes: [
       {
         path: '/account',
-        component: AccountHome,
+        component: AccountDashboard,
         exact: true,
       },
       {

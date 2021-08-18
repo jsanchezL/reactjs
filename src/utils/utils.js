@@ -30,6 +30,7 @@ export function makeRequests (endpoint, method, data, k, auth) {
         switch (k) {
           case 'tokens':
           case 'users':
+          case 'apps':
             r = result[k];
             break;
           case 'user':

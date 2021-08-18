@@ -1,4 +1,8 @@
-import {HomeOutlined, UserOutlined} from '@ant-design/icons';
+import {
+  LayoutOutlined,
+  UserOutlined,
+  AppstoreOutlined,
+} from '@ant-design/icons';
 
 export const menu = {
   admin: {
@@ -6,14 +10,20 @@ export const menu = {
       {
         key: '/admin',
         to: '/admin',
-        label: 'Home',
-        icon: <HomeOutlined />,
+        label: 'Dashboard',
+        icon: <LayoutOutlined />,
       },
       {
         key: '/admin/users',
         to: '/admin/users',
         label: 'Users',
         icon: <UserOutlined />,
+      },
+      {
+        key: '/admin/apps',
+        to: '/admin/apps',
+        label: 'Apps',
+        icon: <AppstoreOutlined />,
       },
     ],
   },
@@ -22,8 +32,8 @@ export const menu = {
       {
         key: '/account',
         to: '/account',
-        label: 'Home',
-        icon: <HomeOutlined />,
+        label: 'Dashboard',
+        icon: <LayoutOutlined />,
       },
     ],
   },

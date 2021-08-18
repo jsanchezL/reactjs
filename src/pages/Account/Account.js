@@ -1,7 +1,7 @@
 export default function Account () {
   return (
     <div>
-      <h1>Into Account</h1>
+      <h1>Dashboard Account</h1>
     </div>
   );
 }
