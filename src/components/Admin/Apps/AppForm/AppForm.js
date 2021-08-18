@@ -67,6 +67,7 @@ export default function AppForm (props) {
       <Form.Item
         name="versionAPI"
         label="Version API"
+        initialValue={appData.versionAPI}
         rules={[
           {
             required: true,

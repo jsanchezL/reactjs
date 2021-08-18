@@ -34,6 +34,7 @@ export function makeRequests (endpoint, method, data, k, auth) {
             r = result[k];
             break;
           case 'user':
+          case 'app':
             if (!result.isUpdate) {
               r = {ok: true, message: result.message};
             } else {

@@ -35,3 +35,7 @@ export function uploadAvatarEditAppApi (id, avatar, token) {
 export function getAvatarAppApi (avatarName, token) {
   return getUrlFileFromBackend (`getAvatar/${avatarName}`, token);
 }
+
+export function updateAppApi (id, data, token) {
+  return makeRequests (`updateApp/${id}`, 'PUT', data, 'app', token);
+}

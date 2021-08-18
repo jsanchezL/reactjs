@@ -3,33 +3,61 @@ import {AppstoreAddOutlined, EditOutlined} from '@ant-design/icons';
 import {useState, useEffect} from 'react';
 import AddApp from '../AddApp';
 import {LOGOS_APPS_PATH} from '../../../../api/config';
+import './ListApps.scss';
+import EditApp from '../EditApp';
 
 export default function ListApps (props) {
   const {data, reloadApps} = props;
   const {Meta} = Card;
-  var rows = [], rowElements = [], ri = 0;
+  var rows = [], rowElements = [], ri = 0, index = 1;
+  const elements4row = 5;
 
   data.forEach ((e, i) => {
-    var index = i + 1;
-
-    if (!(index % 5)) {
-      ri++;
+    if (index < elements4row) {
+      index++;
+      rows[ri] = rowElements;
+    } else {
       rowElements = [];
+      index = 2;
+      ri++;
     }
-
     rowElements.push (e);
-    rows[ri] = rowElements;
   });
 
   const [isVisibleDrawer, setIsVisibleDrawer] = useState (false);
   const [titleDrawer, setTitleDrawer] = useState ('');
   const [drawerContent, setDrawerContent] = useState (null);
+  const [appSelected, setAppSelected] = useState ({
+    name: '',
+    description: '',
+    isSecure: false,
+    typePlatform: '',
+    versionAPI: '',
+    avatar: '',
+  });
 
   const addApp = () => {
     setTitleDrawer ('Create');
     setIsVisibleDrawer (true);
     setDrawerContent (<AddApp reloadApps={reloadApps} />);
   };
+
+  useEffect (
+    () => {
+      if (appSelected && appSelected._id) {
+        setTitleDrawer ('Edit');
+        setIsVisibleDrawer (true);
+        setDrawerContent (
+          <EditApp
+            appSelected={appSelected}
+            reloadApps={reloadApps}
+          />
+        );
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [appSelected]
+  );
 
   return (
     <div>
@@ -49,19 +77,19 @@ export default function ListApps (props) {
       <div className="site-card-wrapper">
         {rows.map ((r, ir) => {
           return (
+            <>
             <Row gutter={16}>
               {r.map ((e, ie) => {
                 return (
                   <Col span={6}>
                     <Card
-                      style={{height: 300}}
                       cover={
                         <img
                           alt={e.name}
                           src={LOGOS_APPS_PATH + '/' + e.avatar}
                         />
                       }
-                      actions={[<EditOutlined key="edit" />]}
+                      actions={[<EditOutlined key="edit" onClick={() => setAppSelected(e)}/>]}
                     >
                       <Meta title={e.name} description={e.description} />
                     </Card>
@@ -69,6 +97,8 @@ export default function ListApps (props) {
                 );
               })}
             </Row>
+            <Divider />
+            </>
           );
         })}
       </div>
@@ -80,14 +110,14 @@ export default function ListApps (props) {
         onClose={() => {
           setIsVisibleDrawer (false);
           setTitleDrawer ('');
-          // setUserSelected ({
-          //   name: '',
-          //   lastname: '',
-          //   email: '',
-          //   isAdmin: false,
-          //   status: '',
-          //   avatar: '',
-          // });
+          setAppSelected ({
+            name: '',
+            description: '',
+            isSecure: false,
+            typePlatform: '',
+            versionAPI: '',
+            avatar: '',
+          });
         }}
         destroyOnClose="true"
         height="500"
