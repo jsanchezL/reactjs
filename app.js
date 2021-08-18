@@ -7,6 +7,7 @@ const {API_VERSION} = require ('./config');
 // Load routings
 const authRoutes = require ('./routers/auth');
 const userRoutes = require ('./routers/user');
+const appTemplateRoutes = require ('./routers/appTemplate');
 
 app.use (bodyParser.urlencoded ({extended: false}));
 app.use (bodyParser.json ());
@@ -29,5 +30,8 @@ app.use ((req, res, next) => {
 // Router Basic
 app.use (`/rest/${API_VERSION}`, authRoutes);
 app.use (`/rest/${API_VERSION}`, userRoutes);
+app.use (`/rest/${API_VERSION}`, appTemplateRoutes);
+
+app.use ('/apps/logos', express.static (__dirname + '/uploads/avatar'));
 
 module.exports = app;
