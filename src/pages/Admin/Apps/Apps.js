@@ -8,11 +8,13 @@ export default function Apps () {
   const token = getAccessTokenApi ();
   const [isFreshData, setFreshData] = useState (false);
 
+  // Retrieve records from Backend and putting into data state
   const reloadApps = async token => {
     let apps = await getAppsApi (token);
     setData (apps);
   };
 
+  // Refresh data each 30 seconds
   useEffect (
     () => {
       if (!isFreshData) {
@@ -20,7 +22,7 @@ export default function Apps () {
       }
       setTimeout (() => {
         setFreshData (true);
-      }, 36000); // Retrieve records each minute
+      }, 30000);
       setFreshData (false);
     },
     [token, isFreshData]

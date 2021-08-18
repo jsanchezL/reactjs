@@ -12,6 +12,7 @@ export default function ListApps (props) {
   var rows = [], rowElements = [], ri = 0, index = 1;
   const elements4row = 5;
 
+  // Sort each row with four elements
   data.forEach ((e, i) => {
     if (index < elements4row) {
       index++;
@@ -36,12 +37,14 @@ export default function ListApps (props) {
     avatar: '',
   });
 
+  // Handler when user click over Button Add App
   const addApp = () => {
     setTitleDrawer ('Create');
     setIsVisibleDrawer (true);
     setDrawerContent (<AddApp reloadApps={reloadApps} />);
   };
 
+  // Handler when user click over Action Edit
   useEffect (
     () => {
       if (appSelected && appSelected._id) {

@@ -9,6 +9,7 @@ export default function Users () {
   const token = getAccessTokenApi ();
   const [isFreshData, setFreshData] = useState (false);
 
+  // Retrieve records from Backend and putting into data state
   const setReloadUsers = async token => {
     let usersActive = await getUsersByStatusApi (
       {
@@ -26,6 +27,7 @@ export default function Users () {
     setUsersInActive (usersInActive);
   };
 
+  // Refresh data each 30 seconds
   useEffect (
     () => {
       if (!isFreshData) {
@@ -33,7 +35,7 @@ export default function Users () {
       }
       setTimeout (() => {
         setFreshData (true);
-      }, 36000); // Retrieve records each minute
+      }, 30000);
       setFreshData (false);
     },
     [token, isFreshData]
