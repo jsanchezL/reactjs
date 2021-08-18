@@ -18,5 +18,10 @@ api.put (
   [md_auth.ensureAuth, md_upload_avatar],
   AppTemplateController.uploadAvatarApp
 );
+api.put (
+  '/updateApp/:id',
+  [md_auth.ensureAuth],
+  AppTemplateController.updateApp
+);
 
 module.exports = api;
