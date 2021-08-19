@@ -9,6 +9,7 @@ const express = require ('express'),
 api.post ('/signUp', UserController.signUp);
 api.post ('/signIn', UserController.signIn);
 api.get ('/users', [md_auth.ensureAuth], UserController.getUsers);
+api.get ('/user/:id', [md_auth.ensureAuth], UserController.getUser);
 api.post (
   '/usersByStatus',
   [md_auth.ensureAuth],
@@ -23,6 +24,11 @@ api.get (
   '/getAvatar/:avatarName',
   [md_auth.ensureAuth],
   UserController.getAvatar
+);
+api.get (
+  '/getAvatarUser/:id',
+  [md_auth.ensureAuth],
+  UserController.getAvatarUser
 );
 api.put ('/updateUser/:id', [md_auth.ensureAuth], UserController.updateUser);
 api.delete ('/deleteUser/:id', [md_auth.ensureAuth], UserController.deleteUser);

@@ -187,6 +187,37 @@ function getAvatar (req, res) {
   });
 }
 
+function getAvatarUser (req, res) {
+  const {id} = req.params;
+  User.findById ({_id: id}, (err, user) => {
+    if (err) {
+      res.status (500).send ({message: 'Server internal error'});
+      logger.debug (err);
+    } else {
+      if (!user) {
+        res.status (404).send ({message: 'User not found'});
+      } else {
+        if (user.avatar) {
+          const filePath = `${UPLOAD_DIR}/avatar/${user.avatar}`;
+          fs.stat (filePath, (err, stat) => {
+            if (err === null) {
+              res.sendFile (path.resolve (filePath));
+            } else if (err.code === 'ENOENT') {
+              res.status (404).send ({message: 'Image not found'});
+            } else {
+              logger.debug ('Some other error: ', err.code);
+              res.status (500).send ({message: 'Server internal error'});
+              logger.debug (err);
+            }
+          });
+        } else {
+          res.status (404).send ({message: 'Image not found'});
+        }
+      }
+    }
+  });
+}
+
 function updateUser (req, res) {
   const {id} = req.params;
   let userData = req.body;
@@ -269,6 +300,22 @@ function createUser (req, res) {
   });
 }
 
+function getUser (req, res) {
+  const {id} = req.params;
+  User.findById ({_id: id}, (err, user) => {
+    if (err) {
+      res.status (500).send ({message: 'Server internal error'});
+      logger.debug (err);
+    } else {
+      if (!user) {
+        res.status (404).send ({message: 'User not found'});
+      } else {
+        res.status (200).send ({profile: user});
+      }
+    }
+  });
+}
+
 module.exports = {
   signUp,
   signIn,
@@ -279,4 +326,6 @@ module.exports = {
   updateUser,
   deleteUser,
   createUser,
+  getUser,
+  getAvatarUser,
 };
