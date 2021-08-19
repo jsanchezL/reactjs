@@ -38,6 +38,14 @@ export function getAvatarApi (avatarName, token) {
   return getUrlFileFromBackend (`getAvatar/${avatarName}`, token);
 }
 
+export function getUserApi (id, token) {
+  return makeRequests (`user/${id}`, 'GET', null, 'profile', token);
+}
+
+export function getAvatarUserApi (id, token) {
+  return getUrlFileFromBackend (`getAvatarUser/${id}`, token);
+}
+
 export function updateUserApi (id, data, token) {
   return makeRequests (`updateUser/${id}`, 'PUT', data, 'user', token);
 }

@@ -36,6 +36,7 @@ export default function LayoutAccount (props) {
             <MenuTop
               menuCollapsed={menuCollapsed}
               setMenuCollapsed={setMenuCollapsed}
+              user={user}
             />
           </Header>
           <Content className="layout-account__content">

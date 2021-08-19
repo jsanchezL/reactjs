@@ -74,6 +74,11 @@ export function isAdmin (token) {
   return isAdmin;
 }
 
+export function getCurrentUser (token) {
+  const metaToken = jwtDecode (token);
+  return metaToken;
+}
+
 /**
  * @param {*} token 
  * @returns TRUE si expiró, FALSE en otro caso.

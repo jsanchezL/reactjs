@@ -17,6 +17,7 @@ import Contact from '../pages/Contact';
 import Comfirm from '../pages/Comfirm';
 import AutoSignIn from '../pages/AutoSignIn';
 import SignIn from '../pages/SignIn';
+import Profile from '../pages/Profile';
 
 // Others
 import Error404 from '../pages/Error404';
@@ -43,6 +44,11 @@ const routes = [
         exact: true,
       },
       {
+        path: '/admin/profile',
+        component: Profile,
+        exact: true,
+      },
+      {
         component: Error404,
       },
     ],
@@ -55,6 +61,11 @@ const routes = [
       {
         path: '/account',
         component: AccountDashboard,
+        exact: true,
+      },
+      {
+        path: '/account/profile',
+        component: Profile,
         exact: true,
       },
       {

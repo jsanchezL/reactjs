@@ -1,6 +1,6 @@
 import {Input, Form, Switch, Button, Row, Col, Radio} from 'antd';
 export default function EditForm (props) {
-  const {userData, setUserData, saveUser} = props;
+  const {userData, setUserData, saveUser, isProfile} = props;
   const [form] = Form.useForm ();
 
   const onFinishFailed = errorInfo => {
@@ -79,6 +79,8 @@ export default function EditForm (props) {
             <Input.Password />
           </Form.Item>
         : ''}
+      {isProfile !== undefined ? '' :
+      <>
       <Form.Item label="Role">
         <Switch
           checkedChildren="Admin"
@@ -96,6 +98,8 @@ export default function EditForm (props) {
           buttonStyle="solid"
         />
       </Form.Item>
+      </>
+      }
       <Row>
         <Col span={24} style={{textAlign: 'right'}}>
           <Button type="primary" htmlType="submit">
